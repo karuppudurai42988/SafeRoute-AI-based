@@ -24,24 +24,19 @@ public class IncidentController {
     @PostMapping("/report")
     public ResponseEntity<?> reportIncident(@RequestParam double lat, @RequestParam double lng) {
         try {
-            // 1. Save to MySQL Spatial Database
             SafetyIncident incident = new SafetyIncident();
             Point point = geometryFactory.createPoint(new Coordinate(lng, lat)); // Spatial uses (X, Y) -> (lng, lat)
             incident.setLocation(point);
             incidentRepository.save(incident);
 
-            // 2. Request Safety Metrics from the Python FastAPI Server
             String pythonAiUrl = "http://localhost:8000/api/ai/analyze?lat=" + lat + "&lng=" + lng;
             RestTemplate restTemplate = new RestTemplate();
-            
-            // Fetch the AI calculations
+
             SafetyResponse aiResult = restTemplate.getForObject(pythonAiUrl, SafetyResponse.class);
-            
-            // Send the AI profile back to your Flutter App
+
             return ResponseEntity.ok(aiResult);
 
         } catch (Exception e) {
-            // Fallback response just in case your Python server is ever stopped
             SafetyResponse fallback = new SafetyResponse();
             fallback.setSafetyScore(100);
             fallback.setStatus("Backup Mode");
