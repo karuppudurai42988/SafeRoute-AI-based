@@ -20,7 +20,6 @@ public class SafetyIncident {
     private String severityLevel;
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    // Getters and Setters
     public Long getId() { return id; }
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
