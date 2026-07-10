@@ -1,0 +1,4 @@
+com\saferoute\backend\repository\IncidentRepository.class
+com\saferoute\backend\controller\IncidentController.class
+com\saferoute\backend\model\SafetyIncident.class
+com\saferoute\backend\BackendApplication.class
